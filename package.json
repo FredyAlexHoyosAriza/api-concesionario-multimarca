@@ -1,0 +1,19 @@
+{
+  "name": "api-concesionario-multimarca",
+  "version": "1.0.0",
+  "description": "backend de repositorio concesionario-multimarca",
+  "main": "app.js",
+  "type": "module",
+  "repository": "https://github.com/FredyAlexHoyosAriza/api-concesionario-multimarca.git",
+  "author": "FredyAlexHoyosAriza <donotgobehind@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
