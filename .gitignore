@@ -1,12 +1,47 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Dependencias de Node.js
+node_modules/
 
-# dependencies
-node_modules
-/node_modules
-
-# misc
-.DS_Store
-
+# Archivos de log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Archivos de entorno
+.env
+
+# Builds y directorios de salida
+dist/
+build/
+
+# Archivos del sistema operativo (Windows)
+Thumbs.db
+Desktop.ini
+
+# Configuraciones de VSCode
+.vscode/
+
+# Archivos temporales
+tmp/
+temp/
+*.tmp
+
+# Archivos de lock de dependencias (opcional, si no quieres subir los lock files)
+#package-lock.json
+#yarn.lock
+
+# Archivos relacionados con el servicio
+*.pid
+*.seed
+
+# Directorios de pruebas
+coverage/
+
+# Descripción de las entradas:
+# node_modules/: La carpeta de dependencias de Node.js, que no es necesario subir al repositorio.
+# Archivos de log: Los logs de npm y yarn que pueden generarse durante la instalación o ejecución de comandos.
+# .env: Archivos de entorno que almacenan variables sensibles como claves API.
+# Builds: Carpetas como dist/ o build/ donde se generan los archivos de producción o distribución.
+# Archivos del sistema operativo (Windows): Archivos temporales específicos de Windows como Thumbs.db y Desktop.ini.
+# .vscode/: Archivos de configuración específicos de Visual Studio Code que son locales para tu entorno y no deberían compartirse.
+# Archivos temporales: Cualquier archivo temporal o directorios que puedan generarse durante la ejecución del proyecto.
+# Opcional: Puedes decidir si quieres subir los archivos package-lock.json o yarn.lock. Estos archivos ayudan a garantizar que las mismas versiones de dependencias se instalen en todos los entornos, pero algunos equipos prefieren no incluirlos.
