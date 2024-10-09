@@ -18,7 +18,6 @@ puedan ser usados y manipulados sin inconveniente dentro del código del back*/
 app.use(express.json());
 app.use(cors());
 const port = process.env.PORT;
-let client;
 
 /* CHAT: Cuando usas app.use(express.json());, lo que ocurre es que Express incluye un middleware que
 analiza (parsea) el cuerpo de las solicitudes HTTP y determina si el contenido está en formato JSON.
@@ -91,14 +90,13 @@ ladel caso. */
 
 async function startServer() {
   try {
-    // Conectar al cluster y retornar un base de datos específica
-    const { client: mongoClient } = await dbConection();
-    client = mongoClient;
+    // Conectar al cluster y retornar el cliente (la entidad que usa la DB)
+    const { client } = await dbConection();
     app.use('/api', apiRouter); // middleware
 
     // app.post("/vehiculos/nuevo", async (req, res) => {
     //   try {
-        
+
     //     // Insertar el nuevo vehículo en la base de datos
     //     const result = await db.collection("Vehiculos").insertOne(req.body);
 
@@ -131,8 +129,8 @@ async function startServer() {
       console.log(`Concesionario app listening on port ${port}`);
     });
 
-    // Cerrar la conexión de MongoDB cuando el servidor se cierre
-    process.on("SIGINT", async () => {
+    // Ante un evento Crtl + C: Cerrar la conexión de MongoDB cuando el servidor se cierre
+    await process.on("SIGINT", async () => {
       console.log("\nCerrando servidor...");
       if (client) {
         // Verifica si client no es null
