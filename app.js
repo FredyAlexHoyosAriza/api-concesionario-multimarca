@@ -130,7 +130,7 @@ async function startServer() {
     });
 
     // Ante un evento Crtl + C: Cerrar la conexión de MongoDB cuando el servidor se cierre
-    await process.on("SIGINT", async () => {
+    process.on("SIGINT", async () => {
       console.log("\nCerrando servidor...");
       if (client) {
         // Verifica si client no es null

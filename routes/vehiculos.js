@@ -1,14 +1,19 @@
-// @ts-nocheck
-import express from 'express';
+import express from "express";
+import VehicleController from "../controllers/vehicleController.js";
 
 const router = express.Router();
 
-import VehicleController from '../controllers/vehicleController.js';
+const handleRequest = (controller) => async (req, res) => {
+    const response = await controller(req.body);
+    res.status(response.status).json(response.data ||  { error: response.error }); 
+}
 
+router.post("/add", handleRequest(VehicleController.add));
 
-router.post('/add', VehicleController.add);
-router.get('/list', VehicleController.list);
-router.put('/update', VehicleController.update);
-router.delete('/delete', VehicleController.remove);
+router.get("/list", handleRequest(VehicleController.list));
+
+router.put("/update", handleRequest(VehicleController.update));
+
+router.delete("/delete", handleRequest(VehicleController.remove));
 
 export default router;
