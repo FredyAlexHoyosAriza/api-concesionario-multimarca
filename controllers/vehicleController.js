@@ -1,22 +1,9 @@
 import dbVehiculo from "../database/dbVehiculo.js";
-import {
-  vehicleSchema,
-  vehicleSchemaJustId,
-  vehicleSchemaFull,
-} from "../validation/vehicleModel.js"; // Importar el esquema del vehículo
 
+// Controlador para agregar vehículo
 const add = async (body) => {
-  // Validar los datos de entrada usando el esquema importado
-  const { error } = vehicleSchema.validate(body);
-  if (error) {
-    return {
-      status: 400,
-      error: error.details[0].message,
-    };
-  }
-
   try {
-    const insertedId = await dbVehiculo.add(body); // Llamar a la operación para insertar el vehículo
+    const insertedId = await dbVehiculo.add(body);
     return {
       status: 201,
       data: {
@@ -25,7 +12,6 @@ const add = async (body) => {
       },
     };
   } catch (error) {
-    // Manejo de error que proviene de dbVehiculo
     console.error("Error al insertar el vehículo:", error);
     return {
       status: 500,
@@ -34,6 +20,7 @@ const add = async (body) => {
   }
 };
 
+// Controlador para listar vehículos
 const list = async () => {
   try {
     const vehiculos = await dbVehiculo.list();
@@ -50,18 +37,10 @@ const list = async () => {
   }
 };
 
+// Controlador para actualizar vehículo
 const update = async (body) => {
-  // Validar los datos de entrada usando el esquema importado
-  const { error } = vehicleSchemaFull.validate(body);
-  if (error) {
-    return {
-      status: 400,
-      error: error.details[0].message,
-    };
-  }
-
   try {
-    const updatedVehicle = await dbVehiculo.update(body); // Llamar a la operación para editar el vehículo
+    const updatedVehicle = await dbVehiculo.update(body);
     if (!updatedVehicle) {
       return {
         status: 404,
@@ -76,7 +55,6 @@ const update = async (body) => {
       },
     };
   } catch (error) {
-    // Manejo de error que proviene de dbVehiculo
     console.error("Error al actualizar el vehículo:", error);
     return {
       status: 500,
@@ -85,17 +63,10 @@ const update = async (body) => {
   }
 };
 
+// Controlador para eliminar vehículo
 const remove = async (body) => {
-  const { error } = vehicleSchemaJustId.validate(body);
-  if (error) {
-    return {
-      status: 400,
-      error: error.details[0].message,
-    };
-  }
-
   try {
-    const deletedVehicle = await dbVehiculo.delete(body); // Llamar a la operación para eliminar un vehículo
+    const deletedVehicle = await dbVehiculo.delete(body);
     if (!deletedVehicle) {
       return {
         status: 404,
@@ -109,9 +80,7 @@ const remove = async (body) => {
         id: deletedVehicle._id,
       },
     };
-    //res.status(204).send(); // Usar 204 cuando la operación es exitosa y no se retorna contenido
   } catch (error) {
-    // Manejo de error que proviene de dbVehiculo
     console.error("Error al eliminar el vehículo:", error);
     return {
       status: 500,
