@@ -1,9 +1,9 @@
 import dbVehiculo from "../database/dbVehiculo.js";
 
 // Controlador para agregar vehículo
-const add = async (body) => {
+const add = async (req) => {
   try {
-    const insertedId = await dbVehiculo.add(body);
+    const insertedId = await dbVehiculo.add(req.body);
     return {
       status: 201,
       data: {
@@ -38,9 +38,9 @@ const list = async () => {
 };
 
 // Controlador para actualizar vehículo
-const update = async (body) => {
+const update = async (req) => {
   try {
-    const updatedVehicle = await dbVehiculo.update(body);
+    const updatedVehicle = await dbVehiculo.update(req);
     if (!updatedVehicle) {
       return {
         status: 404,
@@ -64,9 +64,9 @@ const update = async (body) => {
 };
 
 // Controlador para eliminar vehículo
-const remove = async (body) => {
+const remove = async (req) => {
   try {
-    const deletedVehicle = await dbVehiculo.delete(body);
+    const deletedVehicle = await dbVehiculo.delete(req.params.id);
     if (!deletedVehicle) {
       return {
         status: 404,

@@ -10,17 +10,17 @@ const router = express.Router();
 
 // Función para manejar el request y ejecutar el controlador
 const handleRequest = (controller) => async (req, res) => {
-    const response = await controller(req.body);
+    const response = await controller(req);
     res.status(response.status).json(response.data ||  { error: response.error }); 
 };
 
 // Rutas con los middlewares de validación correspondientes
-router.post("/add", validateVehicleAdd, handleRequest(VehicleController.add));
+router.post("/", validateVehicleAdd, handleRequest(VehicleController.add));
 
-router.get("/list", handleRequest(VehicleController.list)); // No requiere validación
+router.get("/", handleRequest(VehicleController.list)); // No requiere validación
 
-router.put("/update", validateVehicleUpdate, handleRequest(VehicleController.update));
+router.put("/:id", validateVehicleUpdate, handleRequest(VehicleController.update));
 
-router.delete("/delete", validateVehicleDelete, handleRequest(VehicleController.remove));
+router.delete("/:id", validateVehicleDelete, handleRequest(VehicleController.remove));
 
 export default router;

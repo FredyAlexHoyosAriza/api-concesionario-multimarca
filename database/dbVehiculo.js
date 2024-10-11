@@ -31,19 +31,14 @@ const dbVehiculo = {
   },
 
   // Operación para insertar un vehículo
-  update: async ({ _id, marca, modelo, gama, color }) => {
+  update: async ({ body, params }) => {
     const { db } = await dbConection(); // Obtener la conexión a la base de datos
     try {
-      // const vehicleFilter = { _id: new ObjectId(_id) };
+      // const vehicleFilter = { _id: new ObjectId(params.id) };
       const updatedVehicle  = await db.collection("Vehiculos").findOneAndUpdate(
-        { _id: ObjectId.createFromHexString(_id) },
+        { _id: ObjectId.createFromHexString(params.id) },
         {
-          $set: {
-            marca: marca,
-            modelo: modelo,
-            gama: gama,
-            color: color,
-          },
+          $set: body,
         },
         {
           upsert: true,
@@ -57,11 +52,11 @@ const dbVehiculo = {
     }
   },
 
-  delete: async ({ _id }) => {
+  delete: async (id) => {
     const { db } = await dbConection(); // Obtener la conexión a la base de datos
     try {
       const deletedVehicle = await db.collection("Vehiculos").findOneAndDelete(
-        { _id: ObjectId.createFromHexString(_id) }
+        { _id: ObjectId.createFromHexString(id) }
       );
       return deletedVehicle; // Retornar el vehículo eliminado
     } catch (error) {

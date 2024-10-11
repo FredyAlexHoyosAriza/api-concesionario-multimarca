@@ -10,8 +10,9 @@ export const vehicleSchema = Joi.object({
   // Puedes añadir más campos y restricciones según sea necesario
 });
 
-export const vehicleSchemaJustId = Joi.object({
-  _id: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+export const mongoIdScheme = Joi.object({
+  //verifica que el ID tenga el formato adecuado (ObjectId) de mongoDb
+  id: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
 });
 
 export const vehicleSchemaFull = Joi.object({
