@@ -1,7 +1,7 @@
 import express from "express";
-import vehicleController from "../controllers/vehicleController.js";
+import userController from "../controllers/userController.js";
 import validateSchema from "../middlewares/validateSchema.js"; // Importar middleware
-import { vehicleSchema } from "../validation/vehicleSchema.js"; // Importar vehicleSchema
+import { userSchema } from "../validation/userSchema.js"; // Importar userSchema
 
 const router = express.Router();
 
@@ -16,33 +16,33 @@ const handleRequest = (controller) => async (req, res) => {
 router.post(
   "/",
   validateSchema(vehicleSchema, true, false, false),
-  handleRequest(vehicleController.add)
+  handleRequest(userController.add)
 );
 
-router.get("/", handleRequest(vehicleController.list)); // No requiere validación
+router.get("/", handleRequest(userController.list)); // No requiere validación
 
 router.put(
   "/:id",
   validateSchema(vehicleSchema, true, true, false),
-  handleRequest(vehicleController.update)
+  handleRequest(userController.update)
 );
 
 router.delete(
   "/:id",
   validateSchema(null, false, true),
-  handleRequest(vehicleController.remove)
+  handleRequest(userController.remove)
 );
 
 router.get(
   "/:id",
   validateSchema(null, false, true),
-  handleRequest(vehicleController.getOne)
+  handleRequest(userController.getOne)
 );
 
 router.patch(
   "/:id",
   validateSchema(vehicleSchema, false, true, true),
-  handleRequest(vehicleController.update)
+  handleRequest(userController.update)
 );
 
 export default router;

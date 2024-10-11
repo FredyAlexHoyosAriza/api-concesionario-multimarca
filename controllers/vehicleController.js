@@ -89,4 +89,27 @@ const remove = async (req) => {
   }
 };
 
-export default { add, list, update, remove };
+// Controlador para obtener vehículo
+const getOne = async (req) => {
+  try {
+    const gettedVehicle = await dbVehiculo.getOne(req.params.id);
+    if (!gettedVehicle) {
+      return {
+        status: 404,
+        error: "Vehículo no encontrado",
+      };
+    }
+    return {
+      status: 200,
+      data: gettedVehicle,
+    };
+  } catch (error) {
+    console.error("Error al obtener el vehículo:", error);
+    return {
+      status: 500,
+      error: error.message || "No se pudo obtener el vehículo",
+    };
+  }
+};
+
+export default { add, list, update, remove, getOne };

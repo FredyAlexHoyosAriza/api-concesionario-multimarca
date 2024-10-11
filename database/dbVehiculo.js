@@ -20,6 +20,7 @@ const dbVehiculo = {
     try {
       const vehiculos = await db
         .collection("Vehiculos")
+        //{ estado: 'inactivo'} este es un filtro; es posible enviarlo por req.query o req.body
         .find({})
         .limit(50)
         .toArray();
@@ -27,6 +28,19 @@ const dbVehiculo = {
     } catch (error) {
       console.error("Error al obtener vehículos:", error);
       throw new Error("No se pudieron obtener los vehículos");
+    }
+  },
+
+  getOne: async (id) => {
+    const { db } = await dbConection(); // Obtener la conexión a la base de datos
+    try {
+      const vehiculo = await db
+        .collection("Vehiculos")
+        .findOne({ _id: ObjectId.createFromHexString(id) });
+      return vehiculo; // Retornar el vehículo
+    } catch (error) {
+      console.error("Error al obtener vehículo:", error);
+      throw new Error("No se pudó obtener el vehículo");
     }
   },
 
@@ -41,7 +55,7 @@ const dbVehiculo = {
           $set: body,
         },
         {
-          upsert: true,
+          // upsert: true, // sino no lo encuentra lo crea
           returnOriginal: true,
         }
       );
