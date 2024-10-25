@@ -7,5 +7,6 @@ export const vehicleSchema = Joi.object({
   modelo: Joi.number().integer().min(1886).max(2025).required(),
   gama: Joi.string().required(),
   color: Joi.string().required(),
+  precio: Joi.number().integer().min(0).optional(),
   // Puedes añadir más campos y restricciones según sea necesario
 });

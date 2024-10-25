@@ -1,13 +1,29 @@
 import Joi from 'joi';
-
 import { userSchema } from './userSchema.js'; // Asegúrate de importar correctamente
 import { vehicleSchema } from './vehicleSchema.js'; // Asegúrate de importar correctamente
 
+// Definir el esquema de venta
 export const saleSchema = Joi.object({
-  vehiculo: vehicleSchema.required(),  // Usa el esquema del vehículo
-  vendedor: userSchema.required(),     // Usa el esquema del vendedor
-  precio_total: Joi.number().positive().precision(2).required(), 
+  vendedor: userSchema.required(), // Refiere al esquema del vendedor
+  vehiculos: Joi.array().items(vehicleSchema.concat(
+    Joi.object({
+      cantidad: Joi.number().integer().min(1).required(),
+    })
+  )).min(1).required(), // Usar el esquema extendido
+  total: Joi.number().positive().precision(2).required(),
 });
+
+// // Definir el esquema de venta
+// export const saleSchema = Joi.object({
+//   vendedor: userSchema.required(), // Refiere al esquema del vendedor
+//   vehiculos: Joi.array().items(
+//     Joi.object({
+//       cantidad: Joi.number().integer().min(1).required(),
+//       vehiculo: vehicleSchema.required(), // Refiere al esquema de vehículo
+//     })
+//   ).min(1).required(), // Debe haber al menos un artículo
+//   total: Joi.number().positive().precision(2).required(),
+// });
 
 // export const saleSchema = Joi.object({
 //     id_vehiculo: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(), // ID del vehículo
