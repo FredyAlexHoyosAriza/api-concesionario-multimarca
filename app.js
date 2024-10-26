@@ -5,6 +5,17 @@
 import { dbConection } from "./database/dbConection.js";
 import apiRouter from './routes/index.js';
 
+//------------Para validación de access token----------------------------
+import { auth } from 'express-oauth2-jwt-bearer'
+// Authorization middleware. When used, the Access Token must
+// exist and be verified against the Auth0 JSON Web Key Set.
+const jwtCheck = auth({
+  audience: 'http://api-concesionario/',//identificador de api de auth0
+  issuerBaseURL: 'https://dev-oqtggp7qfwvt0b01.us.auth0.com/',//endpoint de auth0 para enviar token
+  tokenSigningAlg: 'RS256'//Metodo de encriptación de token
+});
+//-----------------------------------------------------------------------
+
 // En proyectos de back en node el import solia conocerse como require, a continuación se muestra la
 // forma en la que solía importarse la librería express dentro del archivo de arranque del back
 // const express = require('express');
@@ -17,6 +28,7 @@ para convertirlos en elementos válidos en javaScript; objetos o arreglos de obj
 puedan ser usados y manipulados sin inconveniente dentro del código del back*/
 app.use(express.json());
 app.use(cors());
+app.use(jwtCheck); //Se agrega middleware de validación de token (primer anillo de seguridad)
 const port = process.env.PORT;
 
 /* CHAT: Cuando usas app.use(express.json());, lo que ocurre es que Express incluye un middleware que
@@ -28,65 +40,7 @@ el cuerpo de la solicitud contiene datos en formato JSON.
 Si el cuerpo está en formato JSON, este middleware lo parsea y coloca el resultado como un objeto
 JavaScript en req.body.
 Si no contiene JSON, o no se envía un cuerpo válido, req.body estará vacío o indefinido, dependiendo
-ladel caso. */
-
-/* PROBANDO GET*/
-
-// http://localhost:5000/vehiculo: en esta ruta se imprime Hello World! cuando se hace get en la ruta
-// app.get("/vehiculo", (req, res) => {
-//   //El arrow function se ejecuta cuando se hace petición get en la ruta
-//   // res.send(
-//   //   `<h1>Esta es la respuesta para una petición get en la ruta http://localhost:${port}/vehiculo</h1>`
-//   // );
-//   const vehiculos = [
-//     // arreglo de objetos javaScript (casi pero no es formato json)
-//     // el método send del objeto res en express internamente realiza la conversión al formato json
-//     // por ello en la ruta del navegador se observa este arreglo de objetos en formato json
-//     { marca: "Toyota", modelo: 2020, gama: "Yaris" },
-//     { marca: "Toyota", modelo: 2021, gama: "Corolla" },
-//     { marca: "Toyota", modelo: 2022, gama: "CX30" },
-//     { marca: "Ford", modelo: 2010, gama: "Fiesta" },
-//   ];
-//   res.send(vehiculos);
-//   //En este punto ya se puede recibir una petición en una ruta partícular y entregar una respuesta en esta ruta
-// });
-
-/* PROBANDO POST*/
-
-// app.post("/vehiculo/nuevo", (req, res) => {
-//   // Para poder generar una petición post, put, patch o delete sin necesidad de un front se requieren
-//   // programas que me permiten probar rutas creadas para un backend o endpoints. Entre los programas
-//   // más conocidos para esta tarea se encuentran: postman e insomnia
-//   //La acción en el arrow function solo se ejecuta ante una petición POST
-//   try {
-//     // Las claves esperadas que deben estar presentes en req.body
-//     const expectedKeys = ["marca", "modelo", "gama", "color"];
-//     // Obtenemos las claves del objeto JSON que recibimos
-//     const actualKeys = Object.keys(req.body);
-
-//     /* Otra forma de comparar:
-//     JSON.stringify(Object.keys(req.body)) === JSON.stringify(['marca', 'modelo', 'gama']) */
-//     // Validación: si el número de claves y los valores coinciden
-//     const areEqual =
-//       actualKeys.length === expectedKeys.length &&
-//       actualKeys.every((key, index) => key === expectedKeys[index]);
-
-//     if (!areEqual) {
-//       // Si no son iguales, devolvemos un error de validación
-//       throw new Error(
-//         "Los datos proporcionados no coinciden con el formato esperado."
-//       );
-//     }
-
-//     // Si todo está bien, continuamos con el procesamiento de la solicitud
-//     res
-//       .status(200)
-//       .json({ message: "Datos válidos y procesados correctamente" });
-//   } catch (error) {
-//     // Capturamos cualquier error (como un problema con el formato de req.body o fallos en la validación)
-//     res.status(400).json({ error: error.message });
-//   }
-// });
+del caso. */
 
 async function startServer() {
   try {
