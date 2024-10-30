@@ -112,4 +112,53 @@ const getOne = async (req) => {
   }
 };
 
-export default { add, list, update, remove, getOne };
+const updateOrCreate = async (req) => {
+  try {
+    // Llamada a la función findOrCreate de dbUsuario
+    const { userId, isNew } = await dbUsuario.updateOrCreate(req.body);
+
+    // Responder con estado 201 si es nuevo o 200 si se actualizó/encontró
+    return {
+      status: isNew ? 201 : 200,
+      data: {
+        message: `Usuario ${isNew ? 'creado' : 'encontrado'} exitosamente`,
+        id: userId,
+      },
+    };
+  } catch (error) {
+    // Loguear y retornar el error con status 500
+    console.error("Error al encontrar o crear el usuario:", error);
+    return {
+      status: 500,
+      error: error.message || "No se pudo encontrar o crear el usuario",
+    };
+  }
+};
+
+
+// Controlador para encontrar o crear usuario VERSIÓN ANTERIOR
+// const findOrCreate = async (req) => {
+//   try {
+//     // Llamada a la función findOrCreate de dbUsuario
+//     const { userId, isNew } = await dbUsuario.findOrCreate(req.body);
+
+//     // Si se crea un nuevo usuario o se encuentra, devolver status 201 o 200 respectivamente 
+//     return {
+//       status: isNew ? 201 : 200,
+//       data: {
+//         message: `Usuario ${isNew ? 'creado' : 'encontrado'} exitosamente`,
+//         id: userId,
+//       },
+//     };
+//   } catch (error) {
+//     // Loguear y retornar el error con status 500
+//     console.error("Error al encontrar o crear el usuario:", error);
+//     return {
+//       status: 500,
+//       error: error.message || "No se pudo encontrar o crear el usuario",
+//     };
+//   }
+// };
+
+
+export default { add, list, update, remove, getOne, updateOrCreate };

@@ -2,10 +2,11 @@ import express from "express";
 import userController from "../controllers/userController.js";
 import validateSchema from "../middlewares/validateSchema.js"; // Importar middleware
 import { userSchema } from "../validation/userSchema.js"; // Importar userSchema
+import addTokenInfo from '../middlewares/addTokenInfo.js';
 
 const router = express.Router();
 
-// Función para manejar el request y ejecutar el controlador
+// Función para manejar el request, ejecutar el controlador y enviar respuesta al front
 const handleRequest = (controller) => async (req, res) => {
   const response = await controller(req);
   res.status(response.status).json(response.data || { error: response.error });
@@ -20,6 +21,14 @@ router.post(
 );
 
 router.get("/", handleRequest(userController.list)); // No requiere validación
+
+//--Guarda en DB la userInfo en el token
+router.get(
+  "/self",
+  addTokenInfo,
+  validateSchema(userSchema, true, false, false),
+  handleRequest(userController.updateOrCreate)
+);
 
 router.put(
   "/:id",

@@ -28,6 +28,9 @@ para convertirlos en elementos válidos en javaScript; objetos o arreglos de obj
 puedan ser usados y manipulados sin inconveniente dentro del código del back*/
 app.use(express.json());
 app.use(cors());
+/*Aquí se establece la validación de token de atuh0 para la cual habrá respuesta, si es ok el flujo
+continuará. Aquí se establece la necesidad de un token válido para todos los endpoints de forma
+general; cualquier petición al back requerirá un token válido */
 app.use(jwtCheck); //Se agrega middleware de validación de token (primer anillo de seguridad)
 const port = process.env.PORT;
 
