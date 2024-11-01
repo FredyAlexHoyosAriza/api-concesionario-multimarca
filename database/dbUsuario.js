@@ -48,7 +48,7 @@ const dbUsuario = {
   update: async ({ body, params }) => {
     const { db } = await dbConection(); // Obtener la conexión a la base de datos
     try {
-      // const vehicleFilter = { _id: new ObjectId(params.id) };
+      // const vehicleFilter = { _id: ObjectId.createFromHexString(params.id) };
       const updatedUser  = await db.collection("Usuarios").findOneAndUpdate(
         { _id: ObjectId.createFromHexString(params.id) },
         {
@@ -91,10 +91,10 @@ const dbUsuario = {
           { $set: userInfo },         // Actualización: establece los datos de usuario proporcionados
           { returnDocument: "after" } // "after" para obtener el documento actualizado
         );
-        return { userId: usuario._id, isNew: false }; // Usuario actualizado
+        return { mongoId: usuario._id, isNew: false }; // Usuario actualizado
       }
       usuario = await db.collection("Usuarios").insertOne(userInfo);
-      return { userId: usuario.insertedId, isNew: true }; // Usuario creado
+      return { mongoId: usuario.insertedId, isNew: true }; // Usuario creado
 
     } catch (error) {
       console.error("Error en updateOrCreate:", error);
@@ -117,7 +117,7 @@ const dbUsuario = {
   
   //     // Retorna el ID del usuario y si es nuevo o no
   //     return {
-  //       userId: usuario._id,
+  //       mongoId: usuario._id,
   //       isNew: !existingUser, // isNew será true si el usuario no existía previamente
   //     };
   //   } catch (error) {
@@ -134,11 +134,11 @@ const dbUsuario = {
   //     // Si el usuario no existe, crearlo
   //     if (!usuario) {
   //       usuario = await db.collection("Usuarios").insertOne(userInfo);
-  //       return { userId: usuario.insertedId, isNew: true }; // Usuario creado
+  //       return { mongoId: usuario.insertedId, isNew: true }; // Usuario creado
   //     }
   
   //     // Usuario encontrado
-  //     return { userId: usuario._id, isNew: false };
+  //     return { mongoId: usuario._id, isNew: false };
   //   } catch (error) {
   //     console.error("Error en findOrCreate:", error);
   //     throw new Error("No se pudo obtener o insertar el usuario");
