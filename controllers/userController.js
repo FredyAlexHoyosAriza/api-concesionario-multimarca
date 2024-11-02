@@ -1,3 +1,4 @@
+import updateAuth0User from "../auth/auth.js";
 import dbUsuario from "../database/dbUsuario.js";
 
 // Controlador para agregar usuario
@@ -40,6 +41,7 @@ const list = async () => {
 // Controlador para actualizar usuario
 const update = async (req) => {
   try {
+    // Actualizar usuario en la base de datos de MongoDB
     const updatedUser = await dbUsuario.update(req);
     if (!updatedUser) {
       return {
@@ -47,10 +49,22 @@ const update = async (req) => {
         error: "Usuario no encontrado",
       };
     }
+
+    // Actualizar atributos del usuario en Auth0
+    try {
+      await updateAuth0User(req.body);
+    } catch (auth0Error) {
+      console.error("Error al actualizar el usuario en Auth0:", auth0Error);
+      return {
+        status: 500,
+        error: "Usuario actualizado en MongoDB, pero ocurrió un error en Auth0",
+      };
+    }
+    //Aquí en lugar de retornar _id podría retornar updatedUser
     return {
       status: 200,
       data: {
-        message: "Usuario actualizado exitosamente",
+        message: "Usuario actualizado exitosamente en MongoDB y Auth0",
         id: updatedUser._id,
       },
     };
@@ -58,7 +72,7 @@ const update = async (req) => {
     console.error("Error al actualizar el usuario:", error);
     return {
       status: 500,
-      error: error.message || "No se pudo actualizar el usuario",
+      error: error.message || "No se pudo actualizar el usuario en BD",
     };
   }
 };
@@ -137,28 +151,28 @@ const updateOrCreate = async (req) => {
 
 
 // Controlador para encontrar o crear usuario VERSIÓN ANTERIOR
-// const findOrCreate = async (req) => {
-//   try {
-//     // Llamada a la función findOrCreate de dbUsuario
-//     const { mongoId, isNew } = await dbUsuario.findOrCreate(req.body);
+const findOrCreate = async (req) => {
+  try {
+    // Llamada a la función findOrCreate de dbUsuario
+    const { mongoId, isNew } = await dbUsuario.findOrCreate(req.body);
 
-//     // Si se crea un nuevo usuario o se encuentra, devolver status 201 o 200 respectivamente 
-//     return {
-//       status: isNew ? 201 : 200,
-//       data: {
-//         message: `Usuario ${isNew ? 'creado' : 'encontrado'} exitosamente`,
-//         id: mongoId,
-//       },
-//     };
-//   } catch (error) {
-//     // Loguear y retornar el error con status 500
-//     console.error("Error al encontrar o crear el usuario:", error);
-//     return {
-//       status: 500,
-//       error: error.message || "No se pudo encontrar o crear el usuario",
-//     };
-//   }
-// };
+    // Si se crea un nuevo usuario o se encuentra, devolver status 201 o 200 respectivamente 
+    return {
+      status: isNew ? 201 : 200,
+      data: {
+        message: `Usuario ${isNew ? 'creado' : 'encontrado'} exitosamente`,
+        id: mongoId,
+      },
+    };
+  } catch (error) {
+    // Loguear y retornar el error con status 500
+    console.error("Error al encontrar o crear el usuario:", error);
+    return {
+      status: 500,
+      error: error.message || "No se pudo encontrar o crear el usuario",
+    };
+  }
+};
 
 
-export default { add, list, update, remove, getOne, updateOrCreate };
+export default { add, list, update, remove, getOne, updateOrCreate, findOrCreate };

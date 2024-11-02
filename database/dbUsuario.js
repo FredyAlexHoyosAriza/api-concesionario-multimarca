@@ -61,8 +61,8 @@ const dbUsuario = {
       );
       return updatedUser; // Retornar el _id del usuario actualizado
     } catch (error) {
-      console.error("Error al actualizar el usuario:", error);
-      throw new Error("No se pudo actualizar el usuario");
+      console.error("Error al actualizar el usuario en BD:", error);
+      throw new Error("No se pudo actualizar el usuario en BD");
     }
   },
 
@@ -87,7 +87,7 @@ const dbUsuario = {
       // El usuario se actualiza o se crea
       if (usuario) {
         usuario = await db.collection("Usuarios").findOneAndUpdate(
-          { email: userInfo.email },  // Filtro: busca por email
+          { user_id: userInfo.user_id },  // Filtro: busca por id de auth0
           { $set: userInfo },         // Actualización: establece los datos de usuario proporcionados
           { returnDocument: "after" } // "after" para obtener el documento actualizado
         );
@@ -110,7 +110,7 @@ const dbUsuario = {
   //     const existingUser = await db.collection("Usuarios").findOne({ email: userInfo.email });
   //     // Realiza el upsert (crea o actualiza) independientemente de si existe
   //     const usuario = await db.collection("Usuarios").findOneAndUpdate(
-  //       { email: userInfo.email },                // Filtro: busca por email
+  //       { user_id: userInfo.user_id },            // Filtro: busca por id de auth0
   //       { $set: userInfo },                       // Actualización: establece los datos de usuario proporcionados
   //       { upsert: true, returnDocument: "after" } // upsert: true para crear si no existe; "after" para obtener el documento actualizado
   //     );
@@ -126,24 +126,24 @@ const dbUsuario = {
   //   }
   // },
 
-  // findOrCreate: async (userInfo) => {
-  //   const { db } = await dbConection(); // Obtener la conexión a la base de datos
-  //   try {
-  //     let usuario = await db.collection("Usuarios").findOne({ email: userInfo.email });
+  findOrCreate: async (userInfo) => {
+    const { db } = await dbConection(); // Obtener la conexión a la base de datos
+    try {
+      let usuario = await db.collection("Usuarios").findOne({ user_id: userInfo.user_id });
       
-  //     // Si el usuario no existe, crearlo
-  //     if (!usuario) {
-  //       usuario = await db.collection("Usuarios").insertOne(userInfo);
-  //       return { mongoId: usuario.insertedId, isNew: true }; // Usuario creado
-  //     }
+      // Si el usuario no existe, crearlo
+      if (!usuario) {
+        usuario = await db.collection("Usuarios").insertOne(userInfo);
+        return { mongoId: usuario.insertedId, isNew: true }; // Usuario creado
+      }
   
-  //     // Usuario encontrado
-  //     return { mongoId: usuario._id, isNew: false };
-  //   } catch (error) {
-  //     console.error("Error en findOrCreate:", error);
-  //     throw new Error("No se pudo obtener o insertar el usuario");
-  //   }
-  // }
+      // Usuario encontrado
+      return { mongoId: usuario._id, isNew: false };
+    } catch (error) {
+      console.error("Error en findOrCreate:", error);
+      throw new Error("No se pudo obtener o insertar el usuario");
+    }
+  }
 
 };
 

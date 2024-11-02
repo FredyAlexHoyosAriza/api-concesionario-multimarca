@@ -27,7 +27,7 @@ router.get(
   "/self",
   addTokenInfo,
   validateSchema(userSchema, true, false, false),
-  handleRequest(userController.updateOrCreate)
+  handleRequest(userController.findOrCreate)
 );
 
 router.put(

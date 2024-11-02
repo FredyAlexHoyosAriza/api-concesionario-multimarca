@@ -7,14 +7,6 @@ const mongoIdScheme = Joi.object({
     .required(),
 });
 
-// const auth0IdSchema = Joi.string() //Debo guardarlo en userSchema y desde allí llamarlo?
-//   .pattern(/^[a-zA-Z0-9_-]+\|[a-zA-Z0-9]+$/)
-//   .required().messages({
-//     "string.pattern.base":
-//       "El user_id debe seguir el formato proveedor|identificador, por ejemplo, auth0|1234567890abcdef.",
-//     "string.empty": "El user_id es obligatorio.",
-//   });
-
 // Middleware para validar datos con un esquema opcional
 const validateSchema = (
   schema = null,

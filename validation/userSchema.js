@@ -23,6 +23,6 @@ export const userSchema = Joi.object({
   picture: Joi.string().uri().optional(),
   created_at: Joi.string().isoDate().required(),
   updated_at: Joi.string().isoDate().required(),
-  blocked: Joi.boolean().default(false).optional(),
+  blocked: Joi.boolean().default(false),//.optional()
   theme_preference: Joi.string().optional(),
 });
