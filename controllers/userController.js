@@ -60,12 +60,12 @@ const update = async (req) => {
         error: "Usuario actualizado en MongoDB, pero ocurrió un error en Auth0",
       };
     }
-    //Aquí en lugar de retornar _id podría retornar updatedUser
     return {
       status: 200,
+      // data: updatedUser,
       data: {
         message: "Usuario actualizado exitosamente en MongoDB y Auth0",
-        id: updatedUser._id,
+        mongoId: updatedUser._id,
       },
     };
   } catch (error) {
@@ -106,7 +106,7 @@ const remove = async (req) => {
 // Controlador para obtener usuario
 const getOne = async (req) => {
   try {
-    const gettedUser = await dbUsuario.getOne(req.params._id);
+    const gettedUser = await dbUsuario.getOne(req.params.id);
     if (!gettedUser) {
       return {
         status: 404,
@@ -129,15 +129,16 @@ const getOne = async (req) => {
 const updateOrCreate = async (req) => {
   try {
     // Llamada a la función findOrCreate de dbUsuario
-    const { mongoId, isNew } = await dbUsuario.updateOrCreate(req.body);
+    const { user, isNew } = await dbUsuario.updateOrCreate(req.body);
 
     // Responder con estado 201 si es nuevo o 200 si se actualizó/encontró
     return {
       status: isNew ? 201 : 200,
-      data: {
-        message: `Usuario ${isNew ? 'creado' : 'encontrado'} exitosamente`,
-        id: mongoId,
-      },
+      data: user,
+      // data: {
+      //   message: `Usuario ${isNew ? 'creado' : 'encontrado'} exitosamente`,
+      //   user: user,
+      // },
     };
   } catch (error) {
     // Loguear y retornar el error con status 500
@@ -154,15 +155,16 @@ const updateOrCreate = async (req) => {
 const findOrCreate = async (req) => {
   try {
     // Llamada a la función findOrCreate de dbUsuario
-    const { mongoId, isNew } = await dbUsuario.findOrCreate(req.body);
+    const { user, isNew } = await dbUsuario.findOrCreate(req.body);
 
     // Si se crea un nuevo usuario o se encuentra, devolver status 201 o 200 respectivamente 
     return {
       status: isNew ? 201 : 200,
-      data: {
-        message: `Usuario ${isNew ? 'creado' : 'encontrado'} exitosamente`,
-        id: mongoId,
-      },
+      data: user,
+      // data: {
+      //   message: `Usuario ${isNew ? 'creado' : 'encontrado'} exitosamente`,
+      //   user: user,
+      // },
     };
   } catch (error) {
     // Loguear y retornar el error con status 500

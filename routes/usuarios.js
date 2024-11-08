@@ -27,6 +27,14 @@ router.get(
   "/self",
   addTokenInfo,
   validateSchema(userSchema, true, false, false),
+  handleRequest(userController.updateOrCreate)
+);
+
+// console.log('Estoy en las rutas');
+router.get(
+  "/self-get",
+  addTokenInfo,
+  validateSchema(userSchema, true, false, false),
   handleRequest(userController.findOrCreate)
 );
 
@@ -43,7 +51,7 @@ router.delete(
 );
 
 router.get(
-  "/:id",
+  "/:id",//podría ser _id ó user_id 
   validateSchema(null, false, true),
   handleRequest(userController.getOne)
 );
