@@ -32,7 +32,7 @@ app.use(cors());
 continuará. Aquí se establece la necesidad de un token válido para todos los endpoints de forma
 general; cualquier petición al back requerirá un token válido */
 app.use(jwtCheck); //Se agrega middleware de validación de token (primer anillo de seguridad)
-const port = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 /* CHAT: Cuando usas app.use(express.json());, lo que ocurre es que Express incluye un middleware que
 analiza (parsea) el cuerpo de las solicitudes HTTP y determina si el contenido está en formato JSON.
@@ -80,10 +80,10 @@ async function startServer() {
     // });
 
     // Se prende app de tal forma que escucha todo lo que se encuentra en el puerto 5000
-    const server = app.listen(port, () => {
+    const server = app.listen(PORT, () => {
       //Por aquí se escucha la petición
       // Esta es la función que se ejecuta en la terminal cuando la app empieza a escuchar
-      console.log(`Concesionario app listening on port ${port}`);
+      console.log(`Concesionario app listening on PORT ${PORT}`);
     });
 
     // Ante un evento Crtl + C: Cerrar la conexión de MongoDB cuando el servidor se cierre
