@@ -6,14 +6,22 @@ import { dbConection } from "./database/dbConection.js";
 import apiRouter from './routes/index.js';
 
 //------------Para validación de access token----------------------------
-import { auth } from 'express-oauth2-jwt-bearer'
+import { expressjwt } from 'express-jwt';
+import jwksRsa from 'jwks-rsa';
 // Authorization middleware. When used, the Access Token must
 // exist and be verified against the Auth0 JSON Web Key Set.
-const jwtCheck = auth({
-  audience: process.env.AUTH0_AUDIENCE,//identificador de api de auth0
-  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,//endpoint de auth0 para enviar token
-  tokenSigningAlg: process.env.AUTH0_TOKEN_SIGNING_ALG//Metodo de encriptación de token
-});
+// Configuración de Auth0
+const jwtCheck = expressjwt({
+  secret: jwksRsa.expressJwtSecret({
+    jwksUri: `https://dev-oqtggp7qfwvt0b01.us.auth0.com/.well-known/jwks.json`
+  }),
+  algorithms: ['RS256'],  // El algoritmo de firma del token
+  audience: process.env.AUTH0_AUDIENCE,  // El identificador de la API
+  issuer: process.env.AUTH0_ISSUER_BASE_URL  // El emisor del token
+})
+// .unless({
+//   path: ['/public']  // Aquí defines las rutas públicas (si las hay)
+// });
 //-----------------------------------------------------------------------
 
 // En proyectos de back en node el import solia conocerse como require, a continuación se muestra la
