@@ -29,10 +29,10 @@ router.get(
   validateSchema(userSchema, true, false, false),
   handleRequest(userController.updateOrCreate)
 );
-console.log('Estoy en las rutas');
+console.log('Estoy en las rutas de usuario');
 // console.log('Estoy en las rutas');
 router.get(
-  "/self-get",
+  "/me",
   addTokenInfo,
   validateSchema(userSchema, true, false, false),
   handleRequest(userController.findOrCreate)

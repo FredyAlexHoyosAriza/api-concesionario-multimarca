@@ -28,7 +28,6 @@ para convertirlos en elementos válidos en javaScript; objetos o arreglos de obj
 puedan ser usados y manipulados sin inconveniente dentro del código del back*/
 app.use(express.json());
 app.use(cors());
-console.log('Me imprimo antes de verificar el token');
 /*Aquí se establece la validación de token de atuh0 para la cual habrá respuesta, si es ok el flujo
 continuará. Aquí se establece la necesidad de un token válido para todos los endpoints de forma
 general; cualquier petición al back requerirá un token válido */
@@ -45,7 +44,7 @@ Si el cuerpo está en formato JSON, este middleware lo parsea y coloca el result
 JavaScript en req.body.
 Si no contiene JSON, o no se envía un cuerpo válido, req.body estará vacío o indefinido, dependiendo
 del caso. */
-console.log('Estoy en el servidor');
+
 async function startServer() {
   try {
     // Conectar al cluster y retornar el cliente (la entidad que usa la DB)
