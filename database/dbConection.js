@@ -1,6 +1,6 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 
  // puesto que se encuentra en la ruta raiz no se requiere especificar la ruta: dotenv.config({ path: '../.env' });
 dotenv.config();

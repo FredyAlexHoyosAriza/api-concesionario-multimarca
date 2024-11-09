@@ -1,11 +1,12 @@
 import { ManagementClient } from "auth0";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const auth0 = new ManagementClient({
-  domain: "dev-oqtggp7qfwvt0b01.us.auth0.com",
-  clientId: "zWrEK8dPcaDoF6aa6TqTqVs13tQUocce",
-  clientSecret:
-    "HWUcMprWpEweMTbBOj69qixnN8mCl7rTkGwfob0Colxw13GfAtwnOXE4Qz8eKEiR",
-  scope: "update:users read:users",
+  domain: process.env.AUTH0_DOMAIN,
+  clientId: process.env.AUTH0_CLIENT_ID,
+  clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  scope: process.env.AUTH0_SCOPE,
 });
 
 async function updateAuth0User(body) {

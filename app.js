@@ -10,9 +10,9 @@ import { auth } from 'express-oauth2-jwt-bearer'
 // Authorization middleware. When used, the Access Token must
 // exist and be verified against the Auth0 JSON Web Key Set.
 const jwtCheck = auth({
-  audience: 'http://api-concesionario/',//identificador de api de auth0
-  issuerBaseURL: 'https://dev-oqtggp7qfwvt0b01.us.auth0.com/',//endpoint de auth0 para enviar token
-  tokenSigningAlg: 'RS256'//Metodo de encriptación de token
+  audience: process.env.AUTH0_AUDIENCE,//identificador de api de auth0
+  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,//endpoint de auth0 para enviar token
+  tokenSigningAlg: process.env.AUTH0_TOKEN_SIGNING_ALG//Metodo de encriptación de token
 });
 //-----------------------------------------------------------------------
 

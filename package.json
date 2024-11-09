@@ -8,7 +8,7 @@
   "author": "FredyAlexHoyosAriza <donotgobehind@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js"
   },
   "dependencies": {
     "auth0": "^4.10.0",
