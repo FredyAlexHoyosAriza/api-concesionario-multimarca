@@ -27,7 +27,7 @@ datos que se recibirán en el body de las solicitudes estan en formato JSON y po
 para convertirlos en elementos válidos en javaScript; objetos o arreglos de objetos de javaScript, que
 puedan ser usados y manipulados sin inconveniente dentro del código del back*/
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: "http://localhost:3000" }));
 /*Aquí se establece la validación de token de atuh0 para la cual habrá respuesta, si es ok el flujo
 continuará. Aquí se establece la necesidad de un token válido para todos los endpoints de forma
 general; cualquier petición al back requerirá un token válido */
