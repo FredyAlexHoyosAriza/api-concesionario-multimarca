@@ -44,7 +44,7 @@ Si el cuerpo está en formato JSON, este middleware lo parsea y coloca el result
 JavaScript en req.body.
 Si no contiene JSON, o no se envía un cuerpo válido, req.body estará vacío o indefinido, dependiendo
 del caso. */
-
+console.log('Estoy en el servidor');
 async function startServer() {
   try {
     // Conectar al cluster y retornar el cliente (la entidad que usa la DB)

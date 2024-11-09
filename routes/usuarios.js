@@ -29,7 +29,7 @@ router.get(
   validateSchema(userSchema, true, false, false),
   handleRequest(userController.updateOrCreate)
 );
-
+console.log('Estoy en las rutas');
 // console.log('Estoy en las rutas');
 router.get(
   "/self-get",
