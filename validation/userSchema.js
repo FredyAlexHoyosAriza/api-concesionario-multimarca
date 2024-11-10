@@ -10,7 +10,7 @@ const auth0IdSchema = Joi.string() //Debo guardarlo en userSchema y desde allí 
 
 // Esquema de validación de usuario
 export const userSchema = Joi.object({
-  // _id: Joi.string().regex(/^[0-9a-fA-F]{24}$/).optional(),//MongDB scheme
+  _id: Joi.string().regex(/^[0-9a-fA-F]{24}$/).optional(),//MongDB scheme
   user_id: auth0IdSchema.required(),
   email: Joi.string().email().required(),
   email_verified: Joi.boolean().required(),
@@ -23,6 +23,6 @@ export const userSchema = Joi.object({
   picture: Joi.string().uri().optional(),
   created_at: Joi.string().isoDate().required(),
   updated_at: Joi.string().isoDate().required(),
-  blocked: Joi.boolean().default(false),//.optional()
+  blocked: Joi.boolean().default(false),
   theme_preference: Joi.string().optional(),
 });
