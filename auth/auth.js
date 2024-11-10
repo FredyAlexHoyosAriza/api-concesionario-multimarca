@@ -25,7 +25,7 @@ async function updateAuth0User(body) {
       // Asigna `role` a `app_metadata`
       if (attributes.role) updateData.app_metadata.role = attributes.role;
       // Actualiza otros campos directos del usuario, como `name`
-      if (attributes.name) updateData.name = attributes.name;
+      if (attributes.name) updateData.app_metadata.name = attributes.name;
       // Puedes agregar más campos según lo necesites
       // if (attributes.email_verified !== undefined) {
       //   updateData.email_verified = attributes.email_verified;
