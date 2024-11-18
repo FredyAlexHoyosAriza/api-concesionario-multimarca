@@ -18,6 +18,11 @@ app.use(jwtCheck); // Se agrega el middleware de validación de token
 
 app.use('/api', apiRouter);
 
+// Manejo de errores de rutas no encontradas
+app.use((req, res) => {
+  res.status(404).json({ error: "Ruta no encontrada" });
+});
+
 const PORT = process.env.PORT || 5000;
 
 async function startServer() {
