@@ -10,4 +10,9 @@ router.use('/vehiculos', vehiclesRouter);// Este es un middleware
 router.use('/usuarios', usersRouter);// Este es un middleware
 router.use('/ventas', salesRouter);// Este es un middleware
 
+// Ruta raíz de la API
+router.get("/", async (req, res) => {
+    res.status(200).json({ message: 'Welcome to the API!' });
+});
+
 export default router;
