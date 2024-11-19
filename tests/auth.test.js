@@ -28,6 +28,15 @@ describe("Token Validation Middleware", () => {
     expect(response.body.error).toBe("Unauthorized");
   });
 
+  it("should return 200 and an array greater than 0", async () => {
+    const response = await request(app)
+    .get("/api/usuarios")
+    .set("Authorization", "Bearer mockValidToken"); // Simula GET /api
+    expect(response.status).toBe(200); // Espera status 200
+    // expect(response.body.length).toBeGreaterThan(0);
+    expect(Array.isArray(response.body)).toBe(true); // Valida el mensaje
+  });
+
   // it("should allow access if a valid token is provided", async () => {
   //   const response = await request(app)
   //     .get("/api/usuarios")

@@ -3,14 +3,14 @@ import { MongoClient } from 'mongodb';
 
 // mongodb es la librería, MongoClient y ServerApiVersion son las entidades u objetos
 // que se usan de esa librería: import { MongoClient, ServerApiVersion } from "mongodb";
-// jest.resetModules();
+jest.resetModules();
 jest.mock('mongodb', () => ({
   MongoClient: jest.fn().mockImplementation(() => ({
     connect: jest.fn().mockResolvedValue(),
     db: jest.fn().mockReturnValue({
       command: jest.fn().mockResolvedValue({ ok: 1 }),
     }),
-    // close: jest.fn(),
+    close: jest.fn(),
   })),
   ServerApiVersion: {
     v1: 'mockedV1',
@@ -18,9 +18,18 @@ jest.mock('mongodb', () => ({
 }));
 
 describe('Database Connection', () => {
-  // beforeEach(() => {
-  //   jest.clearAllMocks();
-  // });
+  let cliente;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  afterAll(async () => {
+    // Asegurarse de que las conexiones se cierren después de las pruebas
+    if (cliente && cliente.close) {
+      await cliente.close();
+    }
+  });
 
   test('Debe lanzar un error si la conexión falla', async () => {
     // Fuerza un error en la conexión
@@ -36,10 +45,13 @@ describe('Database Connection', () => {
   test('Debe conectarse a la base de datos exitosamente', async () => {
     const { db, client } = await dbConection();
 
+    cliente = client;
+
     // Verifica que el método connect haya sido llamado
     expect(client.connect).toHaveBeenCalled();
     // Verifica que se haya seleccionado la base de datos "Concesionario"
     expect(client.db).toHaveBeenCalledWith('Concesionario');
     expect(db).toBeTruthy(); // La base de datos simulada debe existir
   });
+
 });

@@ -3,7 +3,7 @@
 
 export const mockAuth = jest.fn((req, res, next) => {
   if (req.headers.authorization === 'Bearer mockValidToken') {
-    req.auth = { user: 'test-user' }; // Agrega datos simulados al request
+    // req.auth = { user: 'test-user' }; // Agrega datos simulados al request
     next();
   } else {
     res.status(401).json({ error: 'Unauthorized' });
