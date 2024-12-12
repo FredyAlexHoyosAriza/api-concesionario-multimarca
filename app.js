@@ -3,6 +3,7 @@ import apiRouter from './routes/index.js';
 import { auth } from 'express-oauth2-jwt-bearer';
 import express from "express";
 import cors from 'cors';
+import { fileURLToPath } from 'url';
 
 const app = express();
 app.use(express.json());
@@ -62,10 +63,9 @@ async function startServer() {
 // Esta parte asegura que startServer solo se ejecute si este archivo es ejecutado directamente
 // process.argv[1] -> url del módulo o archivo principal de ejecución del proceso
 // import.meta.url -> url completa que representa la ubicación del archivo actual
-import { fileURLToPath } from 'url';
 // Se convierte la ruta al formato del sistema operativo
-const currentFilePath = fileURLToPath(import.meta.url);
-if (currentFilePath === process.argv[1]) {
+// const currentFilePath = fileURLToPath(import.meta.url);
+if (process.argv[1] === process.argv[1]) {
   startServer();
 }
 
