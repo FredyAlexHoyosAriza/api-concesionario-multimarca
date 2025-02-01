@@ -126,8 +126,7 @@ Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más 
 ## Contacto 📬
 
 - **GitHub**: [FredyAlexHoyosAriza](https://github.com/FredyAlexHoyosAriza)
-- **LinkedIn**: [Fredy Alexander Hoyos Ariza](https://www.linkedin.com/in/fredyalexanderhoyosariza/)
-- **Email**: [fredy.hoyos@example.com](mailto:fredy.hoyos@example.com)
+- **LinkedIn**: [Fredy Alexander Hoyos Ariza](https://www.linkedin.com/in/fredy-alexander-hoyos-ariza-3b7122167/)
 
 ---
 
