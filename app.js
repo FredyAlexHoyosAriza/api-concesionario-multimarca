@@ -3,11 +3,11 @@ import apiRouter from './routes/index.js';
 import { auth } from 'express-oauth2-jwt-bearer';
 import express from "express";
 import cors from 'cors';
-import { fileURLToPath } from 'url';
+// import { fileURLToPath } from 'url';
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors());// Para permitir request desde origenes configurados por default cualquiera
 
 // Middleware de validación de token de Auth0
 const jwtCheck = auth({
@@ -24,9 +24,8 @@ app.use((req, res) => {
   res.status(404).json({ error: "Ruta no encontrada" });
 });
 
-const PORT = process.env.PORT || 5000;
-
 async function startServer() {
+  const PORT = process.env.PORT || 5000;
   try {
     const { client } = await dbConection();
     const server = app.listen(PORT, () => {
