@@ -25,4 +25,4 @@ export const userSchema = Joi.object({
   updated_at: Joi.string().isoDate().required(),
   blocked: Joi.boolean().default(false),
   theme_preference: Joi.string().optional(),
-});
+}).unknown(true);//unknown permite campos extra en el schema

@@ -41,3 +41,8 @@ async function updateAuth0User(body) {
 }
 
 export default updateAuth0User;
+// sino se especifica el contenida de updateData se guarda en app_metadata
+// const updateData = { // para enviar ambos se hace explicito
+//   app_metadata: { role: "admin" },
+//   user_metadata: { theme: "dark" } // para enviarlo se hace explicito
+// };
